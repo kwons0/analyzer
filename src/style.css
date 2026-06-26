@@ -68,6 +68,14 @@
 /* Header */
 #analyzer-layer .header {
   padding: 16px 16px 14px;
+  position: unset;
+  height: fit-content;
+}
+
+#analyzer-layer .header .logo {
+  position: unset;
+  top: 0;
+  left: 0;
 }
 
 #analyzer-layer .header-top {
