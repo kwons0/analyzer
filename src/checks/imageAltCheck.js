@@ -3,14 +3,18 @@ function getResolvedImageUrl(img) {
 }
 
 function getOriginalImageUrl(src) {
+  if (!src) return '';
+
   try {
     const url = new URL(src, window.location.href);
 
-    // Next.js Image 컴포넌트처럼 /_next/image?url=... 형태인 경우 원본 경로 추출
-    const originalUrl = url.searchParams.get('url');
+    // Next.js Image 최적화 URL 처리
+    // 예: /_next/image?url=%2Fimages%2Fmobility%2Ftapi_logo.svg&w=384&q=75
+    const isNextImageUrl = url.pathname === '/_next/image' || url.pathname.endsWith('/_next/image');
+    const nextImageUrl = url.searchParams.get('url');
 
-    if (originalUrl) {
-      return new URL(originalUrl, window.location.origin).href;
+    if (isNextImageUrl && nextImageUrl) {
+      return new URL(nextImageUrl, window.location.origin).href;
     }
 
     return url.href;
@@ -20,13 +24,17 @@ function getOriginalImageUrl(src) {
 }
 
 function getImageFileName(url) {
+  if (!url) return '';
+
   try {
     const parsedUrl = new URL(url, window.location.href);
     const fileName = parsedUrl.pathname.split('/').pop();
 
+    // 확장자 포함 파일명 그대로 반환
     return decodeURIComponent(fileName || '');
   } catch {
-    return decodeURIComponent(url.split('/').pop() || '');
+    const pureUrl = url.split('?')[0];
+    return decodeURIComponent(pureUrl.split('/').pop() || '');
   }
 }
 
@@ -96,7 +104,7 @@ export function checkImageAlt() {
         type: 'info',
         variant: 'image-alt',
         index: index + 1,
-        fileName, // 확장자 포함 파일명
+        fileName,
         previewUrl,
         imageUrl,
         alt,
@@ -122,14 +130,13 @@ export function checkImageAlt() {
   const issueCount = issueMap.size;
   const totalImageCount = results.length;
 
-return {
-  issueCount,
-  totalImageCount,
-
-  notice:
-    issueCount > 0
-        ? `alt 텍스트가 다른 이미지 파일명 ${issueCount}건이 발견되었습니다.`
-        : 'alt 텍스트가 다른 이미지가 발견되지 않았습니다.',
-  results,
-};
+  return {
+    issueCount,
+    totalImageCount,
+    notice:
+      issueCount > 0
+        ? `동일 이미지명 내 alt 누락 이미지 ${issueCount}건이 발견되었습니다.`
+        : '',
+    results,
+  };
 }

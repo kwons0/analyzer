@@ -23,62 +23,70 @@ function renderImageAltResults({ container, tab }) {
         })
     : results;
 
-  container.innerHTML = `
-    <div class="notice">
-      <div class="notice-text">
-        <span class="material-symbols-rounded notice-icon" aria-hidden="true">
-          ${tab.issueCount > 0 ? 'error' : 'check_circle'}
-        </span>
+    container.innerHTML = `
+      ${
+        tab.issueCount > 0
+          ? `
+            <div class="notice">
+              <div class="notice-text">
+                <span class="material-symbols-rounded notice-icon" aria-hidden="true">
+                  error
+                </span>
 
-        <span>${escapeHtml(tab.notice)}</span>
-      </div>
-
-      <label class="toggle">
-        <input 
-          type="checkbox" 
-          class="toggle-input" 
-          ${showOnlyAltIssues ? 'checked' : ''}
-        />
-        <span class="toggle-track">
-          <span class="toggle-thumb"></span>
-        </span>
-      </label>
-    </div>
-
-    <div class="image-list">
-      ${visibleResults
-        .map((item, index) => {
-          return `
-            <div class="result-item image-result ${
-              item.isAltIssue ? 'has-alt-issue' : ''
-            }" data-index="${index}" role="button" tabindex="0">
-              <div class="image-preview">
-                <img src="${escapeHtml(item.previewUrl)}" alt="" />
+                <span>
+                  ${escapeHtml(tab.notice)}
+                </span>
               </div>
 
-              <div class="image-info">
-                <button 
-                  type="button"
-                  class="image-file-name" 
-                  data-preview-index="${index}"
-                >
-                  ${escapeHtml(item.fileName)}
-                </button>
-
-                <div class="image-meta">
-                  alt: ${item.alt ? escapeHtml(item.alt) : '<span class="empty-value">없음</span>'}
-                </div>
-
-                <div class="image-meta">
-                  title: ${escapeHtml(item.title)}
-                </div>
-              </div>
+              <label class="toggle">
+                <input 
+                  type="checkbox" 
+                  class="toggle-input" 
+                  ${showOnlyAltIssues ? 'checked' : ''}
+                />
+                <span class="toggle-track">
+                  <span class="toggle-thumb"></span>
+                </span>
+              </label>
             </div>
-          `;
-        })
-        .join('')}
-    </div>
-  `;
+          `
+          : ''
+      }
+
+      <div class="image-list">
+        ${visibleResults
+          .map((item, index) => {
+            return `
+              <div class="result-item image-result ${
+                item.isAltIssue ? 'has-alt-issue' : ''
+              }" data-index="${index}" role="button" tabindex="0">
+                <div class="image-preview">
+                  <img src="${escapeHtml(item.previewUrl)}" alt="" />
+                </div>
+
+                <div class="image-info">
+                  <button 
+                    type="button"
+                    class="image-file-name" 
+                    data-preview-index="${index}"
+                  >
+                    ${escapeHtml(item.fileName)}
+                  </button>
+
+                  <div class="image-meta">
+                    alt: ${item.alt ? escapeHtml(item.alt) : '<span class="empty-value">없음</span>'}
+                  </div>
+
+                  <div class="image-meta">
+                    title: ${escapeHtml(item.title)}
+                  </div>
+                </div>
+              </div>
+            `;
+          })
+          .join('')}
+      </div>
+    `;
 
   const toggleInput = container.querySelector('.toggle-input');
 
