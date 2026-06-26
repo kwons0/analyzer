@@ -7,6 +7,30 @@ function escapeHtml(value) {
     .replaceAll("'", '&#039;');
 }
 
+function getTextOnly(element) {
+  return Array.from(element.childNodes)
+    .map((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        return node.textContent;
+      }
+
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const tagName = node.tagName.toLowerCase();
+
+        if (tagName === 'br') {
+          return ' ';
+        }
+
+        return getTextOnly(node);
+      }
+
+      return '';
+    })
+    .join('')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function getParentHtmlWithStrong(parentElement) {
   let result = '';
 
@@ -19,13 +43,13 @@ function getParentHtmlWithStrong(parentElement) {
     if (node.nodeType === Node.ELEMENT_NODE) {
       const tagName = node.tagName.toLowerCase();
 
-      if (tagName === 'strong') {
-        const hasTextBefore = result.trim().length > 0;
-        const strongCode = escapeHtml(node.outerHTML);
+    if (tagName === 'strong') {
+      const hasTextBefore = result.trim().length > 0;
+      const strongText = escapeHtml(getTextOnly(node));
 
-        result += `${hasTextBefore ? '<br>' : ''}<span class="strong-code">${strongCode}</span><br>`;
-        return;
-      }
+      result += `${hasTextBefore ? '<br>' : ''}<span class="strong-code">${strongText}</span><br>`;
+      return;
+    }
 
       result += escapeHtml(node.innerText || node.textContent || '');
     }
