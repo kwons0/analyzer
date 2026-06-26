@@ -46,6 +46,20 @@ export function createLayer({ id, title, tabs }) {
   const resultsContainer = layer.querySelector('.results');
   const closeButton = layer.querySelector('.close-button');
 
+  function closeLayer() {
+    document.removeEventListener('pointerdown', handleOutsideClick, true);
+    layer.remove();
+  }
+
+  function handleOutsideClick(event) {
+    const path = event.composedPath?.() || [];
+    const isInsideLayer = path.includes(layer) || layer.contains(event.target);
+
+    if (!isInsideLayer) {
+      closeLayer();
+    }
+  }
+
   function render() {
     const activeTab = tabs.find((tab) => tab.id === activeTabId);
 
@@ -66,8 +80,13 @@ export function createLayer({ id, title, tabs }) {
   }
 
   closeButton.addEventListener('click', () => {
-    layer.remove();
+    closeLayer();
   });
 
   render();
+  
+  setTimeout(() => {
+    document.addEventListener('pointerdown', handleOutsideClick, true);
+  }, 0);
+
 }
