@@ -9,7 +9,6 @@ function getOriginalImageUrl(src) {
     const url = new URL(src, window.location.href);
 
     // Next.js Image 최적화 URL 처리
-    // 예: /_next/image?url=%2Fimages%2Fmobility%2Ftapi_logo.svg&w=384&q=75
     const isNextImageUrl = url.pathname === '/_next/image' || url.pathname.endsWith('/_next/image');
     const nextImageUrl = url.searchParams.get('url');
 
@@ -30,7 +29,6 @@ function getImageFileName(url) {
     const parsedUrl = new URL(url, window.location.href);
     const fileName = parsedUrl.pathname.split('/').pop();
 
-    // 확장자 포함 파일명 그대로 반환
     return decodeURIComponent(fileName || '');
   } catch {
     const pureUrl = url.split('?')[0];
