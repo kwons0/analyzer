@@ -1,5 +1,17 @@
+function toAbsoluteUrl(src) {
+  if (!src) return '';
+
+  try {
+    return new URL(src, window.location.href).href;
+  } catch {
+    return src;
+  }
+}
+
 function getResolvedImageUrl(img) {
-  return img.currentSrc || img.src || img.getAttribute('src') || '';
+  const src = img.currentSrc || img.src || img.getAttribute('src') || '';
+
+  return toAbsoluteUrl(src);
 }
 
 function getOriginalImageUrl(src) {

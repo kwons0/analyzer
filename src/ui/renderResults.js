@@ -3,6 +3,14 @@ import { escapeHtml } from '../utils/escapeHtml.js';
 
 let showOnlyAltIssues = false;
 
+function openImagePreview({ previewUrl, imageUrl }) {
+  const targetUrl = previewUrl || imageUrl;
+
+  if (!targetUrl) return;
+
+  window.open(targetUrl, '_blank', 'noopener,noreferrer');
+}
+
 function renderImageAltResults({ container, tab }) {
   const results = tab?.results || [];
 
@@ -103,8 +111,8 @@ function renderImageAltResults({ container, tab }) {
       const item = visibleResults[index];
 
       openImagePreview({
+        previewUrl: item.previewUrl,
         imageUrl: item.imageUrl,
-        fileName: item.fileName,
       });
     });
   });
