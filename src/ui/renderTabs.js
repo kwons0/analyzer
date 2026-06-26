@@ -9,8 +9,12 @@ export function renderTabs({ container, tabs, activeTabId, onChange }) {
           class="tab ${isActive ? 'is-active' : ''}" 
           data-tab-id="${tab.id}"
         >
-          ${tab.label}
-          <span>${tab.results.length}</span>
+          <span class="tab-label">${tab.label}</span>
+          ${
+            tab.results.length
+              ? `<span class="tab-count">${tab.results.length}</span>`
+              : ''
+          }
         </button>
       `;
     })

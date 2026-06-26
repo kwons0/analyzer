@@ -1,4 +1,3 @@
-import { escapeHtml } from '../utils/escapeHtml.js';
 import { highlightElement } from '../utils/highlightElement.js';
 
 export function renderResults({ container, results }) {
@@ -15,9 +14,9 @@ export function renderResults({ container, results }) {
     .map((item, index) => {
       return `
         <button type="button" class="result-item" data-index="${index}">
-          <strong>${escapeHtml(item.title)}</strong>
-          <span>${escapeHtml(item.value || '')}</span>
-          <pre>${escapeHtml(item.message || '')}</pre>
+          <div class="result-text">
+            ${item.message || ''}
+          </div>
         </button>
       `;
     })
@@ -27,9 +26,6 @@ export function renderResults({ container, results }) {
     button.addEventListener('click', () => {
       const index = Number(button.dataset.index);
       const item = results[index];
-
-      console.log(item.consoleData || item);
-      console.log(item.element);
 
       highlightElement(item.element);
     });

@@ -9,11 +9,11 @@ export function highlightElement(element) {
   const previousOutline = element.style.outline;
   const previousOutlineOffset = element.style.outlineOffset;
 
-  element.style.outline = '3px solid #ff3b30';
-  element.style.outlineOffset = '4px';
+  element.style.outline = '3px solid var(--color-main)';
+  element.style.outlineOffset = '1px';
 
   setTimeout(() => {
     element.style.outline = previousOutline;
     element.style.outlineOffset = previousOutlineOffset;
-  }, 2000);
+  }, 1000);
 }

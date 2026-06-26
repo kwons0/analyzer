@@ -10,8 +10,21 @@ export function createLayer({ id, title, tabs }) {
   layer.innerHTML = `
     <div class="panel">
       <div class="header">
-        <strong>${title}</strong>
-        <button type="button" class="close-button">×</button>
+        <div class="header-top">
+          <div class="brand">
+            <span class="logo">SVC</span>
+            <strong class="title">${title}</strong>
+          </div>
+
+          <button type="button" class="close-button" aria-label="닫기">
+            <span class="material-symbols-rounded" aria-hidden="true">close</span>
+          </button>
+        </div>
+
+        <div class="page-url">
+          <span class="material-symbols-rounded link-icon" aria-hidden="true">link</span>
+          <span>${window.location.href}</span>
+        </div>
       </div>
 
       <div class="tabs"></div>
