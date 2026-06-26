@@ -46,8 +46,9 @@ function getParentHtmlWithStrong(parentElement) {
     if (tagName === 'strong') {
       const hasTextBefore = result.trim().length > 0;
       const strongText = escapeHtml(getTextOnly(node));
+      const strongCode = `&lt;strong&gt;${strongText}&lt;/strong&gt;`;
 
-      result += `${hasTextBefore ? '<br>' : ''}<span class="strong-code">${strongText}</span><br>`;
+      result += `${hasTextBefore ? '<br>' : ''}<span class="strong-code">${strongCode}</span><br>`;
       return;
     }
 
