@@ -2,6 +2,7 @@ export function renderTabs({ container, tabs, activeTabId, onChange }) {
   container.innerHTML = tabs
     .map((tab) => {
       const isActive = tab.id === activeTabId;
+      const count = tab.count ?? tab.results.length;
 
       return `
         <button 
@@ -11,8 +12,8 @@ export function renderTabs({ container, tabs, activeTabId, onChange }) {
         >
           <span class="tab-label">${tab.label}</span>
           ${
-            tab.results.length
-              ? `<span class="tab-count">${tab.results.length}</span>`
+            count
+              ? `<span class="tab-count">${count}</span>`
               : ''
           }
         </button>

@@ -15,7 +15,7 @@ export function runAnalyzer() {
 
   createLayer({
     id: LAYER_ID,
-    title: 'SVC 분석기',
+    title: 'SVC',
     tabs,
   });
 }
