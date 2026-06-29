@@ -203,18 +203,6 @@
   word-break: keep-all;
 }
 
-#analyzer-layer .tabs,
-#analyzer-layer .results {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE, Edge */
-}
-
-#analyzer-layer .tabs::-webkit-scrollbar,
-#analyzer-layer .results::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
-}
-
-
 #analyzer-layer .strong-code {
   display: inline;
   padding: 1px 3px;
