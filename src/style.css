@@ -172,6 +172,7 @@
   max-height: 70vh;
   overflow: auto;
   padding: 14px 16px;
+  overscroll-behavior: contain;
 }
 
 #analyzer-layer .result-item {
@@ -291,6 +292,7 @@
 #analyzer-layer .image-file-name {
   display: inline-block;
   color: var(--color-text);
+  font-size: 15px;
   text-decoration: none;
   word-break: break-all;
   line-height: 1.2;

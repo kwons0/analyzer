@@ -42,20 +42,42 @@ export function createLayer({ id, title, tabs }) {
 
   document.body.appendChild(layer);
 
+  const panel = layer.querySelector('.panel');
   const tabsContainer = layer.querySelector('.tabs');
   const resultsContainer = layer.querySelector('.results');
   const closeButton = layer.querySelector('.close-button');
 
+  const previousBodyOverflow = document.body.style.overflow;
+  const previousHtmlOverflow = document.documentElement.style.overflow;
+
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
+
   function closeLayer() {
+    document.body.style.overflow = previousBodyOverflow;
+    document.documentElement.style.overflow = previousHtmlOverflow;
+
+    document.removeEventListener('wheel', preventOutsideScroll, {
+      capture: true,
+    });
+
+    document.removeEventListener('touchmove', preventOutsideScroll, {
+      capture: true,
+    });
+
     document.removeEventListener('pointerdown', handleOutsideClick, true);
+
     layer.remove();
   }
 
-  function handleOutsideClick(event) {
-    const path = event.composedPath?.() || [];
-    const isInsideLayer = path.includes(layer) || layer.contains(event.target);
+  function preventOutsideScroll(event) {
+    if (!panel.contains(event.target)) {
+      event.preventDefault();
+    }
+  }
 
-    if (!isInsideLayer) {
+  function handleOutsideClick(event) {
+    if (!panel.contains(event.target)) {
       closeLayer();
     }
   }
@@ -84,6 +106,20 @@ export function createLayer({ id, title, tabs }) {
   });
 
   render();
+
+  document.addEventListener('wheel', preventOutsideScroll, {
+    capture: true,
+    passive: false,
+  });
+
+  document.addEventListener('touchmove', preventOutsideScroll, {
+    capture: true,
+    passive: false,
+  });
+
+  setTimeout(() => {
+    document.addEventListener('pointerdown', handleOutsideClick, true);
+  }, 0);
   
   setTimeout(() => {
     document.addEventListener('pointerdown', handleOutsideClick, true);

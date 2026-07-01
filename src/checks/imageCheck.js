@@ -20,7 +20,6 @@ function getOriginalImageUrl(src) {
   try {
     const url = new URL(src, window.location.href);
 
-    // Next.js Image 최적화 URL 처리
     const isNextImageUrl = url.pathname === '/_next/image' || url.pathname.endsWith('/_next/image');
     const nextImageUrl = url.searchParams.get('url');
 
@@ -85,7 +84,6 @@ function createAltIssueMap(imageItems) {
     const emptyAltCount = items.filter((item) => !item.hasAlt).length;
     const filledAltCount = items.filter((item) => item.hasAlt).length;
 
-    // 같은 이미지명 안에서 alt 있음/없음이 섞인 경우만 이슈로 판단
     if (emptyAltCount > 0 && filledAltCount > 0) {
       issueMap.set(fileName, {
         isIssue: true,
@@ -99,7 +97,7 @@ function createAltIssueMap(imageItems) {
   return issueMap;
 }
 
-export function checkImageAlt() {
+export function checkImage() {
   const images = Array.from(document.querySelectorAll('img'));
 
   const imageItems = images

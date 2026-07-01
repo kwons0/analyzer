@@ -1,9 +1,9 @@
 import { checkStrongTags } from './strongCheck.js';
-import { checkImageAlt } from './imageAltCheck.js';
+import { checkImage } from './imageCheck.js';
 
 export function runChecks() {
   const strongResults = checkStrongTags();
-  const imageAltResult = checkImageAlt();
+  const imageResult = checkImage();
 
   return [
     {
@@ -16,11 +16,11 @@ export function runChecks() {
     {
       id: 'image-alt',
       label: 'Image Alt',
-      count: imageAltResult.totalImageCount,
-      notice: imageAltResult.notice,
-      issueCount: imageAltResult.issueCount,
-      totalImageCount: imageAltResult.totalImageCount,
-      results: imageAltResult.results,
+      count: imageResult.totalImageCount,
+      notice: imageResult.notice,
+      issueCount: imageResult.issueCount,
+      totalImageCount: imageResult.totalImageCount,
+      results: imageResult.results,
       renderType: 'image-alt',
     },
   ];
